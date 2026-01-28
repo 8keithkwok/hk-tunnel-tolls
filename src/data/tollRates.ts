@@ -21,19 +21,6 @@ export type VehicleTypeTateKong =
   | 'single_deck_bus'
   | 'double_deck_bus'
 
-export const VEHICLE_LABELS: Record<VehicleType | VehicleTypeTateKong, string> = {
-  private_car: '私家車',
-  taxi: '的士',
-  motorcycle: '電單車',
-  commercial: '貨車／小巴／巴士',
-  minibus: '小巴',
-  light_goods: '輕型貨車',
-  medium_goods: '中型貨車',
-  heavy_goods: '重型貨車',
-  single_deck_bus: '單層巴士',
-  double_deck_bus: '雙層巴士',
-}
-
 /** 香港時區取得當前時間 HH:MM 及星期 (0=日, 6=六) */
 export function getHKTimeNow(): { time: string; dayOfWeek: number } {
   const formatter = new Intl.DateTimeFormat('en-CA', {
@@ -190,11 +177,16 @@ function getTateMaoShanToll(vehicle: VehicleTypeTateKong): number {
 }
 
 // --- 劃一 $8 ---
-const FLAT_8_TUNNELS = ['香港仔隧道', '城門隧道', '獅子山隧道', '沙田嶺／尖山／大圍隧道'] as const
+const FLAT_8_NAME_KEYS = [
+  'tunnel.aberdeen',
+  'tunnel.shing_mun',
+  'tunnel.lion_rock',
+  'tunnel.sha_tin_ling',
+] as const
 
 export type TunnelItem = {
   id: string
-  name: string
+  nameKey: string
   toll: number
   note?: string
 }
@@ -205,22 +197,22 @@ export function getCurrentTolls(input: TollInput): TunnelItem[] {
 
   list.push({
     id: 'cross_harbour',
-    name: '海底隧道（紅隧）',
+    nameKey: 'tunnel.cross_harbour',
     toll: getCrossHarbourToll('cross_harbour', input),
   })
   list.push({
     id: 'eastern',
-    name: '東區海底隧道（東隧）',
+    nameKey: 'tunnel.eastern',
     toll: getCrossHarbourToll('eastern', input),
   })
   list.push({
     id: 'western',
-    name: '西區海底隧道（西隧）',
+    nameKey: 'tunnel.western',
     toll: getCrossHarbourToll('western', input),
   })
   list.push({
     id: 'tate_kong',
-    name: '大欖隧道',
+    nameKey: 'tunnel.tate_kong',
     toll: getTateKongToll(input),
   })
 
@@ -230,33 +222,30 @@ export function getCurrentTolls(input: TollInput): TunnelItem[] {
       : 'private_car'
   list.push({
     id: 'tate_mao_shan',
-    name: '大老山隧道',
+    nameKey: 'tunnel.tate_mao_shan',
     toll: getTateMaoShanToll(tateMaoShanVehicle),
   })
 
-  for (const name of FLAT_8_TUNNELS) {
-    list.push({
-      id: name.replace(/\s*[／\/].*$/, '').replace(/\s/g, '_'),
-      name,
-      toll: 8,
-    })
+  for (const nameKey of FLAT_8_NAME_KEYS) {
+    const id = nameKey.replace('tunnel.', '').replace(/\./g, '_')
+    list.push({ id, nameKey, toll: 8 })
   }
 
   return list
 }
 
-/** 用於 UI 的車種選項（過海三隧 + 大老山共用選項） */
-export const VEHICLE_OPTIONS: { value: VehicleType | VehicleTypeTateKong; label: string }[] = [
-  { value: 'private_car', label: VEHICLE_LABELS.private_car },
-  { value: 'taxi', label: VEHICLE_LABELS.taxi },
-  { value: 'motorcycle', label: VEHICLE_LABELS.motorcycle },
-  { value: 'commercial', label: VEHICLE_LABELS.commercial },
-  { value: 'minibus', label: VEHICLE_LABELS.minibus },
-  { value: 'light_goods', label: VEHICLE_LABELS.light_goods },
-  { value: 'medium_goods', label: VEHICLE_LABELS.medium_goods },
-  { value: 'heavy_goods', label: VEHICLE_LABELS.heavy_goods },
-  { value: 'single_deck_bus', label: VEHICLE_LABELS.single_deck_bus },
-  { value: 'double_deck_bus', label: VEHICLE_LABELS.double_deck_bus },
+/** 用於 UI 的車種選項（過海三隧 + 大老山共用選項），標籤由 i18n 提供 */
+export const VEHICLE_OPTIONS: { value: VehicleType | VehicleTypeTateKong }[] = [
+  { value: 'private_car' },
+  { value: 'taxi' },
+  { value: 'motorcycle' },
+  { value: 'commercial' },
+  { value: 'minibus' },
+  { value: 'light_goods' },
+  { value: 'medium_goods' },
+  { value: 'heavy_goods' },
+  { value: 'single_deck_bus' },
+  { value: 'double_deck_bus' },
 ]
 
 const VALID_VEHICLE_VALUES = new Set(VEHICLE_OPTIONS.map((o) => o.value))

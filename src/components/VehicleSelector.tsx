@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import type { VehicleType, VehicleTypeTateKong } from '../data/tollRates'
 import { VEHICLE_OPTIONS } from '../data/tollRates'
 
@@ -7,11 +8,12 @@ type Props = {
 }
 
 export function VehicleSelector({ value, onChange }: Props) {
+  const { t } = useTranslation()
   return (
     <div
       className="flex flex-wrap gap-2"
       role="group"
-      aria-label="選擇車種"
+      aria-label={t('app.vehicleLabel')}
     >
       {VEHICLE_OPTIONS.map((opt) => {
         const selected = value === opt.value
@@ -28,7 +30,7 @@ export function VehicleSelector({ value, onChange }: Props) {
                 : 'bg-slate-700/80 text-slate-300 ring-1 ring-slate-600 hover:bg-slate-700 hover:text-white')
             }
           >
-            {opt.label}
+            {t(`vehicle.${opt.value}`)}
           </button>
         )
       })}

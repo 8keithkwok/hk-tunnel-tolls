@@ -2,6 +2,8 @@
 
 一個讓使用者快速查看香港各收費隧道**現時收費**的 Web App，依當前時間與是否假日（星期日／公眾假期）計算分時段收費，並支援多種車種選擇。適合手機使用，可作為 portfolio 項目展示。
 
+**Live**: https://8keithkwok.github.io/hk-tunnel-tolls/
+
 ## 功能
 
 - **現時收費**：依香港時間與假日狀態，即時顯示各隧道當前收費
@@ -46,7 +48,8 @@ yarn preview
 2. 在 Repo **Settings → Pages** 中，**Source** 選 **GitHub Actions**
 3. 每次 push 到 `main` 分支會觸發 `.github/workflows/deploy.yml`，自動建置並部署至 GitHub Pages
 
-上線網址格式：`https://<username>.github.io/hk-tunnel-tolls/`
+上線網址格式：`https://<username>.github.io/hk-tunnel-tolls/`  
+本專案 Live：https://8keithkwok.github.io/hk-tunnel-tolls/
 
 ## 授權
 

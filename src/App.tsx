@@ -98,9 +98,10 @@ export default function App() {
           {loading && t('app.loadingHolidays')}
         </p>
 
-        <p className="mb-3 text-sm font-medium text-slate-300">{t('app.vehicleLabel')}</p>
-        <VehicleSelector value={vehicle} onChange={setVehicle} />
-        <div className="mb-6" />
+        <div className="mb-6 flex flex-wrap items-center gap-2">
+          <span className="text-sm font-medium text-slate-300">{t('app.vehicleLabel')}</span>
+          <VehicleSelector value={vehicle} onChange={setVehicle} />
+        </div>
 
         <div className="space-y-2 sm:space-y-3">
           {tolls.map((item) => (

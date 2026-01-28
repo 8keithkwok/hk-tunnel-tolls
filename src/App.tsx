@@ -18,6 +18,10 @@ const VEHICLE_STORAGE_KEY = 'hk-tunnel-tolls-vehicle'
 const TD_URL =
   'https://www.td.gov.hk/tc/transport_in_hong_kong/tunnels_and_bridges_n/toll_matters/toll_rates_of_road_tunnels_and_lantau_link/index.html'
 
+const AUTHOR_NAME = 'Keith Kwok'
+const GITHUB_URL = 'https://github.com/8keithkwok'
+const PORTFOLIO_URL = 'https://8keithkwok.github.io/'
+
 function saveLocale(lng: string) {
   try {
     localStorage.setItem(LOCALE_STORAGE_KEY, lng)
@@ -111,6 +115,26 @@ export default function App() {
 
         <footer className="mt-8 border-t border-slate-700 pt-6 text-center text-xs text-slate-500 sm:text-sm">
           <p>
+            {t('footer.madeBy', { name: AUTHOR_NAME })}{' '}
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-amber-400 underline hover:text-amber-300"
+            >
+              {t('footer.github')}
+            </a>
+            {' · '}
+            <a
+              href={PORTFOLIO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-amber-400 underline hover:text-amber-300"
+            >
+              {t('footer.portfolio')}
+            </a>
+          </p>
+          <p className="mt-4 border-t border-slate-700 pt-4">
             {t('footer.source')}{' '}
             <a
               href={TD_URL}
